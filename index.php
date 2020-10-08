@@ -7,9 +7,9 @@
        return $movies;
       }
    function dbConnect(){
-   $servername = "localhost";
-   $username = "root";
-   $password = "peter123";
+   $servername = "";
+   $username = "";
+   $password = "";
    $result = false;
    //return new PDO("mysql:host=$servername;dbname=movies", $username, $password);
    try {
@@ -30,7 +30,7 @@
    $sql->setFetchMode(PDO::FETCH_ASSOC);
    $sql->execute();
    if($sql->rowCount() = 0) {
-      $mymovies=getMovies("/home/peter/Downloads/download.json");
+      $mymovies=getMovies("path to json file");
       foreach ($mymovies as $movie) {
       $title=$movie["title"];
       $movieid=$movie["movieID"];

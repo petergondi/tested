@@ -26,19 +26,27 @@
    if(!$conn){
    return "Check your db connection";
    }
-   $mymovies=getMovies("/home/peter/Downloads/download.json");
-   foreach ($mymovies as $movie) {
-   $title=$movie["title"];
-   $movieid=$movie["movieID"];
-   $genre=$movie["genre"];
+   $sql = $conn->prepare("SELECT movieID,mymovies.name as moviename,genre.name as genre FROM mymovies INNER JOIN genre ON mymovies.genreID=genre.genreID");
+   $sql->setFetchMode(PDO::FETCH_ASSOC);
+   $sql->execute();
+   if($sql->rowCount() = 0) {
+      $mymovies=getMovies("/home/peter/Downloads/download.json");
+      foreach ($mymovies as $movie) {
+      $title=$movie["title"];
+      $movieid=$movie["movieID"];
+      $genre=$movie["genre"];
+      
+      $genre_result = "INSERT INTO genre (name) VALUES ('$genre')";
+      $conn->exec($genre_result);
+      $lastgenre_id = $conn->lastInsertId();
+      
+      $movie_result = "INSERT INTO mymovies (movieID, name, genreID) VALUES ('$movieid','$title','$lastgenre_id')";
+     $conn->exec($movie_result);
+         }
+   }else{
+      return "Result already exist in the db";
+   }
    
-   $genre_result = "INSERT INTO genre (name) VALUES ('$genre')";
-   $conn->exec($genre_result);
-   $lastgenre_id = $conn->lastInsertId();
-   
-   $movie_result = "INSERT INTO mymovies (movieID, name, genreID) VALUES ('$movieid','$title','$lastgenre_id')";
-  $conn->exec($movie_result);
-      }
    }
    function displayRecords(){
       $conn=dbConnect();

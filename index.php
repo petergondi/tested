@@ -38,9 +38,6 @@
    
    $movie_result = "INSERT INTO mymovies (movieID, name, genreID) VALUES ('$movieid','$title','$lastgenre_id')";
   $conn->exec($movie_result);
-        echo stripslashes($movie["movieID"])." ";
-        echo stripslashes($movie["title"])." ";
-        echo stripslashes($genre)."<br>";
       }
    }
    function displayRecords(){
